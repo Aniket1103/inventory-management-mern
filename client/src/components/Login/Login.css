@@ -1,0 +1,100 @@
+/* Variables */
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #0056b3;
+  --text-color: #333333;
+  --border-color: #cccccc;
+  --background-color: #f5f5f5;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
+
+.login-card {
+  width: 350px;
+  min-width: 300px;
+  padding: 1.875rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+h2 {
+  margin-bottom: 1.25rem;
+  margin-top: 0rem;
+  text-align: center;
+  color: var(--text-color);
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+input {
+  width: 93%;
+  padding: 0.7rem;
+  border: 0.06rem solid var(--border-color);
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+button {
+  width: 100%;
+  height: 2.7rem;
+  padding: 0.625rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: var(--primary-color);
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--secondary-color);
+}
+
+.continue-as-guest {
+  margin-top: 1.25rem;
+  text-align: center;
+}
+
+.continue-as-guest button {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 0.06rem solid var(--primary-color);
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.continue-as-guest button:hover {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+
+.register-link {
+  margin-top: 1.25rem;
+  text-align: center;
+}
+
+.register-link a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.register-link a:hover {
+  color: var(--secondary-color);
+}
