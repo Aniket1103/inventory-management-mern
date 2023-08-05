@@ -21,17 +21,23 @@ const Login = () => {
     console.log(email, password)
 
     try {
-      const {data} = await axios.post("https://inventory-management-quhz.onrender.com/api/v1/login", {
+      const config = {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        withCredentials: true
+      }
+      const response = await axios.post("https://inventory-management-quhz.onrender.com/api/v1/login", {
           email,
           password
-      });
+      }, config);
       
-      console.log(data);
-      // navigation.navigate('dashboard');
+      console.log("login response", response);
+      navigation.navigate('dashboard');
     } catch (error) {
       const { status, data } = error.response;
-      console.log(status, data);
-      if(status === 400 || status.status === 401) alert("Invalid email or password,\nPlease verify once.");
+      // console.log(status, data);
+      if(status === 400 || status === 401) alert("Invalid email or password,\nPlease verify once.");
       else alert("Error Logging in\nPlease try again.");
     }
   }

@@ -1,0 +1,46 @@
+.inventory-table {
+  width: 80%;
+  border-collapse: collapse;
+  /* margin-top: 20px; */
+  margin: 0rem auto;
+  align-items: 'center';
+}
+
+.inventory-table th,
+.inventory-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.inventory-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.inventory-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.inventory-table tr:hover {
+  background-color: #ddd;
+}
+
+.inventory-table button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.form-container {
+  margin: auto;
+  width: 70%;
+}
+
+.form-container button {
+  width: 10rem;
+  margin: 0 25rem;
+}
