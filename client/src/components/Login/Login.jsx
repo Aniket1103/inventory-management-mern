@@ -25,9 +25,9 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json"
         },
-        // withCredentials: true
+        withCredentials: true
       }
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/login`, {
+      const response = await axios.post(`https://inventory-management-quhz.onrender.com/api/v1/login`, {
           email,
           password
       }, config);

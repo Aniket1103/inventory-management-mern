@@ -81,7 +81,7 @@ const Table = () => {
 
   const getInventoryItems = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:4000/api/v1/inventory`, {
+      const { data } = await axios.get(`https://inventory-management-quhz.onrender.com/api/v1/inventory`, {
         withCredentials: true
       })
       console.log("Inventory Data: ", data);
