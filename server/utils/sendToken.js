@@ -3,6 +3,7 @@ export const sendToken = (res, user, statusCode, message) => {
 
   const options = {
     sameSite: 'None',
+    domain: '.netlify.com',
     httpOnly: true,
     secure: true,
     expires: new Date(
