@@ -6,12 +6,13 @@ import inventoryItem from './routes/inventoryItem.js'
 
 export const app = express();
 
-app.use(cors({
-  origin: "https://inventory-management-stage.netlify.app",
-  credentials: true, // To allow credentials (cookies) to be sent along with the request
-}));
-app.use(cookieParser());
 app.use(express.json());
+app.use(cookieParser());
+app.use(cors({
+  origin: [process.env.FRONTEND_URL],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
 
 app.use('/api/v1', user);
 app.use('/api/v1/inventory', inventoryItem);
