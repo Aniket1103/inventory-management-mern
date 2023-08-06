@@ -18,16 +18,16 @@ const Login = () => {
     const { email, password } = formData;
     if(!email || !password ) return alert("Email or Password cannot be empty\nPlease Try Again.");
     if(password.length < 8) return alert("Password must be of atleast 8 characters.")
-    console.log(email, password)
+    console.log(email, password, import.meta.env.VITE_BASE_URL)
 
     try {
       const config = {
         headers: {
           "Content-Type": "application/json"
         },
-        withCredentials: true
+        // withCredentials: true
       }
-      const response = await axios.post("https://inventory-management-quhz.onrender.com/api/v1/login", {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/login`, {
           email,
           password
       }, config);
@@ -35,10 +35,9 @@ const Login = () => {
       console.log("login response", response);
       navigation.navigate('dashboard');
     } catch (error) {
-      const { status, data } = error.response;
+      // const { status, data } = error.response;
       // console.log(status, data);
-      if(status === 400 || status === 401) alert("Invalid email or password,\nPlease verify once.");
-      else alert("Error Logging in\nPlease try again.");
+      alert("Error Logging in\nPlease try again.");
     }
   }
 
