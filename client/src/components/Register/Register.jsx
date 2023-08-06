@@ -17,13 +17,14 @@ const Register = () => {
   };
 
   const handleRegister = async () => {
+    console.log(import.meta.env);
     const { name, email, password } = formData;
     if(!email || !password || !name) return alert("Email or Password cannot be empty\nPlease Try Again.");
     if(password.length < 8) return alert("Password must be of atleast 8 characters.")
     console.log(email, password)
 
     try {
-      const {data} = await axios.post(`${import.meta.env.VITE_PROD_URL}/api/v1/register`, formData);
+      const {data} = await axios.post(`https://inventory-management-quhz.onrender.com/api/v1/register`, formData);
       
       console.log(data.user);
       // navigation.navigate('dashboard');
