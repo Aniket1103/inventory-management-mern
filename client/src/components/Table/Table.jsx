@@ -81,7 +81,7 @@ const Table = () => {
 
   const getInventoryItems = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory`)
+      const { data } = await axios.get(`https://inventory-management-quhz.onrender.com/api/v1/inventory`)
       console.log(data);
       setInventoryData(data);
     } catch (error) {
