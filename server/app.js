@@ -7,7 +7,7 @@ import inventoryItem from './routes/inventoryItem.js'
 export const app = express();
 
 app.use(cors({
-  origin: "https://inventory-management-stage.netlify.app/",
+  origin: "https://inventory-management-stage.netlify.app",
   credentials: true, // To allow credentials (cookies) to be sent along with the request
 }));
 app.use(cookieParser());
