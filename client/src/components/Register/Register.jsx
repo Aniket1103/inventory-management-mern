@@ -27,7 +27,7 @@ const Register = () => {
       const {data} = await axios.post(`https://inventory-management-quhz.onrender.com/api/v1/register`, formData);
       
       console.log(data.user);
-      // navigation.navigate('dashboard');
+      navigation.navigate('dashboard');
     } catch (error) {
       const { status, data } = error.response;
       console.log(status, data);
