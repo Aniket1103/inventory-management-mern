@@ -24,16 +24,12 @@ const Register = () => {
     console.log(email, password)
 
     try {
-      const r = await axios.get("http://localhost:4000/random",{
-        withCredentials: true,
-      })
-      console.log("r.data: ", r.data)
       const {data} = await axios.post(`http://localhost:4000/api/v1/register`, formData, {
         withCredentials: true,
       });
       
       console.log(data.user);
-      // navigation.navigate('dashboard');
+      navigation.navigate('dashboard');
     } catch (error) {
       const { status, data } = error.response;
       console.log(status, data);

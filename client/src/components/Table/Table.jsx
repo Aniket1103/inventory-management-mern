@@ -77,12 +77,14 @@ const Table = () => {
   ]
   
   const [isModalOpen, setModalOpen] = useState(false);
-  const [inventoryData, setInventoryData] = useState(initialData);
+  const [inventoryData, setInventoryData] = useState([]);
 
   const getInventoryItems = async () => {
     try {
-      const { data } = await axios.get(`https://inventory-management-quhz.onrender.com/api/v1/inventory`)
-      console.log(data);
+      const { data } = await axios.get(`http://localhost:4000/api/v1/inventory`, {
+        withCredentials: true
+      })
+      console.log("Inventory Data: ", data);
       setInventoryData(data);
     } catch (error) {
       console.log(error.response.data);

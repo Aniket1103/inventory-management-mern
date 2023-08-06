@@ -5,31 +5,31 @@
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "e8b86a58",
+      "fileHash": "39b60a5e",
       "needsInterop": true
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "05067f57",
+      "fileHash": "b559be22",
       "needsInterop": true
     },
     "react-router-dom": {
       "src": "../../node_modules/react-router-dom/dist/index.js",
       "file": "react-router-dom.js",
-      "fileHash": "90b0d407",
+      "fileHash": "7472e1e1",
       "needsInterop": false
     },
     "axios": {
       "src": "../../node_modules/axios/index.js",
       "file": "axios.js",
-      "fileHash": "6ad8c9fd",
+      "fileHash": "25bc85bd",
       "needsInterop": false
     },
     "react-icons/fa": {
       "src": "../../node_modules/react-icons/fa/index.esm.js",
       "file": "react-icons_fa.js",
-      "fileHash": "78095558",
+      "fileHash": "cb949c54",
       "needsInterop": false
     }
   },
