@@ -1,11 +1,9 @@
 *{
-  margin:0;
-  padding:0;
   text-decoration: none;
 }
 .container{
   display:flex;
-  margin-top: -4.2rem;
+  margin-top: -4.8rem;
   z-index: 2;
 }
 main{
@@ -27,6 +25,7 @@ main{
 }
 .logo{
   font-size: 30px;
+  margin: 0rem .6rem;
 }
 .bars{
   display: flex;

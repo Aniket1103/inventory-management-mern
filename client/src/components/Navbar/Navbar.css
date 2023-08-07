@@ -41,6 +41,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  z-index: 5;
 }
 
 .dropdown {
@@ -55,14 +56,24 @@
   flex-direction: column;
 }
 
+.dropdown p {
+  /* background-color: rgb(132, 132, 132); */
+  color: #000;
+  font-weight: bold;
+  align-self: center;
+}
+
 .dropdown button {
-  background-color: transparent;
-  border: none;
+  background-color: var(--primary-color);
   cursor: pointer;
-  color: var(--text-color);
-  padding: 0.625rem 0;
+  color: #fff;
+  border: solid 1px #fff;
+  padding: 0rem 1rem;
 }
 
 .dropdown button:hover {
-  color: var(--primary-color);
+  border: solid 1px var(--secondary-color);
+  background-color: var(--secondary-color);
+  /* color: var(--primary-color); */
 }
+

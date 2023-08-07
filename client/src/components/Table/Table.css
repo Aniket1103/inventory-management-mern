@@ -1,3 +1,7 @@
+.table-container {
+  margin: 2rem auto;
+}
+
 .inventory-table {
   width: 80%;
   border-collapse: collapse;
@@ -44,3 +48,10 @@
   width: 10rem;
   margin: 0 25rem;
 }
+
+
+/* .add-btn {
+  position: relative;
+  width: 10rem;
+  right: 20%
+} */
