@@ -46,7 +46,7 @@ const Dashboard = ({userState}) => {
     switch(option){
       case "Dashboard" : return <Table userState={userState} inventoryState={inventoryState} />;
       case "Analytics" : return <Analytics userState={userState} />;
-      case "Requests" : return <Table userState={userState} unapproved={true}/>;
+      case "Requests" : return <Table inventoryState={inventoryState} userState={userState} unapproved={true}/>;
       default : return <Table userState={userState} inventoryState={inventoryState} />
     }
   }

@@ -52,7 +52,7 @@ const Table = ({inventoryState, userState, unapproved}) => {
       });
       
       console.log("Product added: ", data);
-      if(data.approved) inventoryState.set(([...inventoryState.value, data]))
+      if(data.approved) inventoryState.set([...inventoryState.value, data])
       toast.success(currentUser.role === "Manager" ? "Product added Successfully" : "Request Sent Successfully");
     } catch (error) {
       const { status, data } = error.response;
@@ -78,7 +78,18 @@ const Table = ({inventoryState, userState, unapproved}) => {
   };
 
   const handleApprove = async (_id) => {
-    
+    try {
+      const { data } = await axios.patch(`https://inventory-management-quhz.onrender.com/api/v1/inventory/${_id}`, {
+        withCredentials: true
+      })
+      console.log("Approved Item: ", data.updatedItem);
+      toast.success(data.message);
+      inventoryState.set([...inventoryState.value, data])
+      setRequests((prevData) => prevData.filter((item) => item._id !== _id));
+    } catch (error) {
+      toast.error(error.response.data.message)
+      console.log(error.response.data);
+    }
   }
   
   // Add Product button : Event handler to open the modal
