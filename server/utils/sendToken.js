@@ -3,7 +3,7 @@ export const sendToken = (res, user, statusCode, message) => {
 
   const options = {
     httpOnly: true,
-    maxAge: 15 * 60 * 1000,
+    maxAge: process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000,
     sameSite: process.env.NODE_ENV === "Development" ? "lax" : "none",
     secure: process.env.NODE_ENV === "Development" ? false : true,
   };

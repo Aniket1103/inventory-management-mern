@@ -13,7 +13,7 @@ const router = express.Router();
 router
   .route("/")
   .get(isAuthenticated, getInventoryItems)                      //fetch all approved items
-  .post(isAuthenticated, isManager, createInventoryItem)         //create a new inventory item
+  .post(isAuthenticated, createInventoryItem)                   //create a new inventory item
   
 router
   .route("/unapproved")
