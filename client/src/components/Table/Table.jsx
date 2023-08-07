@@ -79,15 +79,15 @@ const Table = ({inventoryState, userState, unapproved}) => {
 
   const handleApprove = async (_id) => {
     try {
-      const { data } = await axios.patch(`https://inventory-management-quhz.onrender.com/api/v1/inventory/${_id}`, {
+      const { data } = await axios.patch(`https://inventory-management-quhz.onrender.com/api/v1/inventory/approve/${_id}`,{}, {
         withCredentials: true
       })
       console.log("Approved Item: ", data.updatedItem);
       toast.success(data.message);
-      inventoryState.set([...inventoryState.value, data])
+      inventoryState.set([...inventoryState.value, data.updatedItem])
       setRequests((prevData) => prevData.filter((item) => item._id !== _id));
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message || `error: ${error.response.status}`)
       console.log(error.response.data);
     }
   }
