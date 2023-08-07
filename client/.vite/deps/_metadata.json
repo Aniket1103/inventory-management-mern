@@ -1,35 +1,35 @@
 {
   "hash": "acae39c4",
-  "browserHash": "d358acf8",
+  "browserHash": "f0e6918f",
   "optimized": {
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "f520d1c6",
+      "fileHash": "6e2104cb",
       "needsInterop": true
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "c8c87a8d",
+      "fileHash": "0fbe164a",
       "needsInterop": true
     },
     "react-router-dom": {
       "src": "../../node_modules/react-router-dom/dist/index.js",
       "file": "react-router-dom.js",
-      "fileHash": "d9689d60",
-      "needsInterop": false
-    },
-    "react-icons/fa": {
-      "src": "../../node_modules/react-icons/fa/index.esm.js",
-      "file": "react-icons_fa.js",
-      "fileHash": "e4c978cc",
+      "fileHash": "68b3019e",
       "needsInterop": false
     },
     "axios": {
       "src": "../../node_modules/axios/index.js",
       "file": "axios.js",
-      "fileHash": "36abaf9e",
+      "fileHash": "4dc4c752",
+      "needsInterop": false
+    },
+    "react-icons/fa": {
+      "src": "../../node_modules/react-icons/fa/index.esm.js",
+      "file": "react-icons_fa.js",
+      "fileHash": "49dd60b9",
       "needsInterop": false
     }
   },
