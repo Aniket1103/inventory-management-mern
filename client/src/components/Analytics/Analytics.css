@@ -1,0 +1,14 @@
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: "center";
+  align-items: center;
+}
+
+.chart-container p {
+  margin: 0 5rem 
+}
+
+/* .pie-cell {
+
+} */

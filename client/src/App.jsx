@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import Dashboard from './components/Dashboard/Dashboard'; 
+import axios from 'axios';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -16,7 +17,7 @@ function App() {
       console.log("Current User: ", data);
       setCurrentUser(data);
     } catch (error) {
-      console.log(error.response.data);
+      console.log(error);
     }
   }
   useEffect(() => {
@@ -27,9 +28,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} /> 
+        <Route path={currentUser ? "/dashboard" : "/"} element={currentUser ? <Dashboard currentUser={currentUser} /> : <Login />} /> 
         <Route path="/register" element={<Register />} /> 
-        <Route path="/dashboard" element={<Dashboard />} /> 
       </Routes>
     </Router>
   );
