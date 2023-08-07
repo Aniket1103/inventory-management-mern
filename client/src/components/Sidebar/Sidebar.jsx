@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     FaTh,
     FaBars,
@@ -6,13 +6,16 @@ import {
     FaRegChartBar,
     FaCommentAlt,
     FaShoppingBag,
-    FaThList
+    FaThList,
+    FaQuestion
 }from "react-icons/fa";
 import "./Sidebar.css"
 import { NavLink } from 'react-router-dom';
 
 
-const Sidebar = ({children, toggleMenu}) => {
+const Sidebar = ({children, toggleMenu, userState}) => {
+    const currentUser = userState.value;
+    // console.log("sidebar", currentUser)
     const[isOpen ,setIsOpen] = useState(false);
     const toggle = () => setIsOpen (!isOpen);
     const menuItem=[
@@ -21,32 +24,36 @@ const Sidebar = ({children, toggleMenu}) => {
             name:"Dashboard",
             icon:<FaTh/>
         },
-        {
-            path:"/about",
-            name:"About",
-            icon:<FaUserAlt/>
-        },
+        // {
+        //     path:"/about",
+        //     name:"About",
+        //     icon:<FaUserAlt/>
+        // },
         {
             path:"/analytics",
             name:"Analytics",
             icon:<FaRegChartBar/>
         },
         {
-            path:"/comment",
-            name:"Comment",
-            icon:<FaCommentAlt/>
-        },
-        {
-            path:"/product",
-            name:"Product",
-            icon:<FaShoppingBag/>
-        },
-        {
-            path:"/productList",
-            name:"Product List",
+            path:"/requests",
+            name:"Requests",
             icon:<FaThList/>
-        }
+        },
+        // {
+        //     path:"/product",
+        //     name:"Product",
+        //     icon:<FaShoppingBag/>
+        // },
+        // {
+        //     path:"/productList",
+        //     name:"Product List",
+        //     icon:<FaThList/>
+        // }
     ]
+
+    useEffect(() => {
+
+    }, [])
     return (
         <div className="container">
            <div style={{width: isOpen ? "200px" : "50px"}} className="sidebar">

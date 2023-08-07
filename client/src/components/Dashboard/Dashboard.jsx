@@ -46,7 +46,7 @@ const Dashboard = ({userState}) => {
     switch(option){
       case "Dashboard" : return <Table userState={userState} inventoryState={inventoryState} />;
       case "Analytics" : return <Analytics userState={userState} />;
-      case 2 : return 2;
+      case "Requests" : return <Table userState={userState} unapproved={true}/>;
       default : return <Table userState={userState} inventoryState={inventoryState} />
     }
   }
@@ -55,14 +55,13 @@ const Dashboard = ({userState}) => {
     <div className="dashboard-container">
       <Navbar userState={userState} selectedOption={option} /> 
       <div style={{display:"flex", flexDirection: "column"}}>
-        <Sidebar toggleMenu={toggleMenu}/>
+        <Sidebar toggleMenu={toggleMenu} userState={userState}/>
         <div>
           <div className="dashboard-content">
           {/* <h1>Welcome to Dashboard!</h1> */}
         </div>
         </div>
       </div>
-        {/* <Table /> */}
         {
           inventoryData && getComponent(option)
         }
