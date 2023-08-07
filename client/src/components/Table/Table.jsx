@@ -42,6 +42,7 @@ const Table = ({inventoryState, userState}) => {
         withCredentials: true
       })
       console.log("Deleted Item: ", data);
+      toast.success(data.message);
       inventoryState.set((prevData) => prevData.filter((item) => item._id !== _id));
     } catch (error) {
       toast.error(error.response.data.message)
@@ -164,36 +165,42 @@ const Table = ({inventoryState, userState}) => {
           </form>
         </div>
       ) : (
+        inventoryState.value.length ? (
         <table className="inventory-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Quantity</th>
-            <th>Category</th>
-            {
-              (currentUser.role === "Manager") &&
-              <th>Action</th>
-            }
-          </tr>
-        </thead>
-        <tbody>
-          {inventoryState.value.map((item) => (
-            <tr key={item._id}>
-              <td>{item.name}</td>
-              <td>{item.description}</td>
-              <td>{item.quantity}</td>
-              <td>{item.category}</td>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Quantity</th>
+              <th>Category</th>
               {
                 (currentUser.role === "Manager") &&
-                <td>
-                  <button onClick={() => handleDelete(item._id)}>Delete</button>
-                </td>
+                <th>Action</th>
               }
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {inventoryState.value.map((item) => (
+              <tr key={item._id}>
+                <td>{item.name}</td>
+                <td>{item.description}</td>
+                <td>{item.quantity}</td>
+                <td>{item.category}</td>
+                {
+                  (currentUser.role === "Manager") &&
+                  <td>
+                    <button onClick={() => handleDelete(item._id)}>Delete</button>
+                  </td>
+                }
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        ) : (
+          <h3 style={{margin: "0 38%", width: "50rem", color: "red"}}>
+            No Products available
+          </h3>
+        )
       )}
     </div>
   );
