@@ -2,16 +2,10 @@ import React, { useEffect, useState } from 'react';
 import {
     FaTh,
     FaBars,
-    FaUserAlt,
     FaRegChartBar,
-    FaCommentAlt,
-    FaShoppingBag,
     FaThList,
-    FaQuestion
 }from "react-icons/fa";
 import "./Sidebar.css"
-import { NavLink } from 'react-router-dom';
-
 
 const Sidebar = ({children, toggleMenu, userState}) => {
     const currentUser = userState.value;
@@ -24,36 +18,22 @@ const Sidebar = ({children, toggleMenu, userState}) => {
             name:"Dashboard",
             icon:<FaTh/>
         },
-        // {
-        //     path:"/about",
-        //     name:"About",
-        //     icon:<FaUserAlt/>
-        // },
         {
             path:"/analytics",
             name:"Analytics",
             icon:<FaRegChartBar/>
-        },
-        {
-            path:"/requests",
-            name:"Requests",
-            icon:<FaThList/>
-        },
-        // {
-        //     path:"/product",
-        //     name:"Product",
-        //     icon:<FaShoppingBag/>
-        // },
-        // {
-        //     path:"/productList",
-        //     name:"Product List",
-        //     icon:<FaThList/>
-        // }
+        }
     ]
 
-    useEffect(() => {
-
-    }, [])
+    
+    const getMenuList = () => {
+      if(currentUser.role === "Manager") return [...menuItem, {
+        path:"/requests",
+        name:"Requests",
+        icon:<FaThList/>
+      }];
+      return menuItem;
+    }
     return (
         <div className="container">
            <div style={{width: isOpen ? "200px" : "50px"}} className="sidebar">
@@ -64,7 +44,7 @@ const Sidebar = ({children, toggleMenu, userState}) => {
                    </div>
                </div>
                {
-                   menuItem.map((item, index)=>(
+                   getMenuList().map((item, index)=>(
                        <div onClick={() => toggleMenu(item.name)} className="link" style={{cursor: 'pointer'}}>
                            <div className="icon">{item.icon}</div>
                            <div style={{display: isOpen ? "block" : "none"}} className="link_text">{item.name}</div>
@@ -72,7 +52,6 @@ const Sidebar = ({children, toggleMenu, userState}) => {
                    ))
                }
            </div>
-           {/* <main>{children}</main> */}
         </div>
     );
 };
