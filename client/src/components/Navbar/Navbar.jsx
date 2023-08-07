@@ -32,14 +32,13 @@ const Navbar = ({userState}) => {
   return (
     <div className="navbar">
       <div className="nav-logo">
-        <Link to="/">Logo</Link>
+        <Link to="/"></Link>
       </div>
       <div className="nav-items">
-        <ul>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-        </ul>
+        <h2 style={{color: "#fff"}}>
+          {/* <Link to="/dashboard">Inventory Management System</Link> */}
+          Inventory Management System
+        </h2>
       </div>
       <div className="nav-profile" onClick={toggleDropdown}>
         <img

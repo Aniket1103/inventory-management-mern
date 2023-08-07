@@ -130,7 +130,7 @@ const Table = ({inventoryState, userState, unapproved}) => {
   return (
     <div className="table-container">
       <div style={{display: 'flex', justifyContent: 'center'}}>
-        <div style={{display: 'flex', margin: '0 30rem'}}>
+        <div style={{display: 'flex', margin: '0 15rem 0 30rem'}}>
           <Toaster />
           <h2>
             {
@@ -142,7 +142,7 @@ const Table = ({inventoryState, userState, unapproved}) => {
             }
           </h2>
         </div>
-        <div style={{display: 'flex', justifyContent: 'center', margin: '0 4rem 0 0'}}>
+        <div style={{display: 'flex', justifyContent: 'center', margin: '0 12rem 0 0'}}>
           {
             !unapproved && 
             <button className="add-btn" onClick={isModalOpen ? handleCancelAdd : handleAddProduct}>
@@ -210,7 +210,7 @@ const Table = ({inventoryState, userState, unapproved}) => {
               </div>
               <div>
               </div>
-                <button type="submit">
+                <button type="submit" style={{margin:"0 38%"}}>
                   {
                     (currentUser.role === "Manager") ? (
                       "Add"
