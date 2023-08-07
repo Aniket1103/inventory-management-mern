@@ -8,6 +8,12 @@ import axios from 'axios';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
+  console.log("currUser: ", currentUser)
+
+  const userState = {
+    value : currentUser,
+    set : setCurrentUser
+  }
 
   const getUser = async () => {
     try {
@@ -28,8 +34,16 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path={currentUser ? "/dashboard" : "/"} element={currentUser ? <Dashboard currentUser={currentUser} /> : <Login />} /> 
-        <Route path="/register" element={<Register />} /> 
+        {
+          !currentUser ? (
+            <>
+              <Route path="/" element={ <Login /> } /> 
+              <Route path="/register" element={<Register />} /> 
+            </>
+          ) : (
+            <Route path="/dashboard" element={<Dashboard userState={userState} /> } /> 
+          )
+        }
       </Routes>
     </Router>
   );

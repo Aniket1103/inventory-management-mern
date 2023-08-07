@@ -65,7 +65,7 @@ const Sidebar = ({children, toggleMenu}) => {
                    ))
                }
            </div>
-           <main>{children}</main>
+           {/* <main>{children}</main> */}
         </div>
     );
 };

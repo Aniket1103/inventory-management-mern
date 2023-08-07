@@ -1,3 +1,7 @@
+.table-container {
+  margin: 2rem auto;
+}
+
 .inventory-table {
   width: 80%;
   border-collapse: collapse;

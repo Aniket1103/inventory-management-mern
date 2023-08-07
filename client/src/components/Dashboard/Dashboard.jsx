@@ -6,7 +6,8 @@ import Table from '../Table/Table'
 import Analytics from '../Analytics/Analytics';
 import axios from 'axios';
 
-const Dashboard = ({currentUser}) => {
+const Dashboard = ({userState}) => {
+  const currentUser = userState.value;
   console.log("Dashboard: ", currentUser);
   const [option, setOption] = useState("Dashboard");
   const [inventoryData, setInventoryData] = useState([]);
@@ -43,16 +44,16 @@ const Dashboard = ({currentUser}) => {
 
   const getComponent = () => {
     switch(option){
-      case "Dashboard" : return <Table currentUser={currentUser} inventoryState={inventoryState} />;
-      case "Analytics" : return <Analytics currentUser={currentUser} />;
+      case "Dashboard" : return <Table userState={userState} inventoryState={inventoryState} />;
+      case "Analytics" : return <Analytics userState={userState} />;
       case 2 : return 2;
-      default : return <Table currentUser={currentUser} inventoryState={inventoryState} />
+      default : return <Table userState={userState} inventoryState={inventoryState} />
     }
   }
 
   return (
     <div className="dashboard-container">
-      <Navbar currentUser={currentUser} selectedOption={option} /> 
+      <Navbar userState={userState} selectedOption={option} /> 
       <div style={{display:"flex", flexDirection: "column"}}>
         <Sidebar toggleMenu={toggleMenu}/>
         <div>

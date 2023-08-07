@@ -37,7 +37,7 @@ const renderCustomizedLabel = ({
     </text>
   );
 };
-export default function Analytics({ currentUser, inventoryData }) {
+export default function Analytics({ userState, inventoryData }) {
   return (
     <div className="chart-container">
       <h1>Analytics</h1>

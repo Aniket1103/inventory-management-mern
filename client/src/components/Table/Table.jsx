@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import './Table.css';
 
-const Table = ({inventoryState, currentUser}) => {
+const Table = ({inventoryState, userState}) => {
   // console.log("table state",currentUser, inventoryState)
+  const currentUser = userState.value;
   const [isModalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -24,8 +25,8 @@ const Table = ({inventoryState, currentUser}) => {
       });
       
       console.log("Product added: ", data);
-      inventoryState.set(([...inventoryState.value, data]))
-      toast.success("Product added Successfully");
+      if(data.approved) inventoryState.set(([...inventoryState.value, data]))
+      toast.success(currentUser.role === "Manager" ? "Product added Successfully" : "Request Sent Successfully");
     } catch (error) {
       const { status, data } = error.response;
       console.log(status, data);
