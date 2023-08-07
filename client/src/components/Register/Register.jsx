@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Register.css";
+import { toast, Toaster } from "react-hot-toast";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -29,12 +30,14 @@ const Register = () => {
       });
       
       console.log(data.user);
+      toast.success(data.message || "Registered Successfully");
       navigation.navigate('dashboard');
     } catch (error) {
+      if(!error.resoponse || !error.response.status || !error.response.data) toast.error(data.message, "Error in Registration");
       const { status, data } = error.response;
       console.log(status, data);
-      if(status === 400 || status.status === 401) alert(data.message);
-      else alert("Error in Registration\nPlease try again.");
+      if(status === 400 || status === 401) toast.error(data.message, "Error in Registration");
+      else toast.error("Error in Registration\nPlease try again.");
     }
   }
 
@@ -47,6 +50,7 @@ const Register = () => {
   return (
     <div className="register-container">
       <div className="register-card">
+        <Toaster />
         <h2>Register</h2>
         <div className="role-tabs">
           <div
