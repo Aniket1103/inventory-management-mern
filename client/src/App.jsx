@@ -41,7 +41,10 @@ function App() {
               <Route path="/register" element={<Register />} /> 
             </>
           ) : (
-            <Route path="/dashboard" element={<Dashboard userState={userState} /> } /> 
+            <>
+              <Route path="/" element={<Dashboard userState={userState} /> } /> 
+              <Route path="/dashboard" element={<Dashboard userState={userState} /> } /> 
+            </>
           )
         }
       </Routes>
