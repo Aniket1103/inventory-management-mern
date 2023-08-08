@@ -93,3 +93,54 @@ Now you can access the Inventory Management System by opening `http://localhost:
   - Password: manager1pass
 
 Feel free to explore the Inventory Management System and manage your inventory items efficiently!
+
+## Challenges Encountered and Implemented Solutions
+
+### Cookie Issue
+
+- **Description**: Cookie was not getting stored with regular server and frontend requests configuration. Additionally, the cookie wasn't being added to subsequent requests from the client due to the browser's CORS policy.
+
+- **Resolution**: The issue was resolved by configuring the CORS and cookie settings properly.
+
+  1. In the CORS setup, attributes needed to be provided:
+
+      ```javascript
+      app.use(cors({
+        origin: [process.env.FRONTEND_URL],
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+        credentials: true,
+      }));
+      ```
+
+  2. When sending or destroying the cookie through the server response for login/logout, the `sameSite` attribute was set to `'lax'` and `'false'` for local development, and `'none'` and `'true'` for production to ensure proper functionality across different environments. This distinction was made to comply with secure HTTPS standards.
+
+      ```javascript
+      const options = {
+          httpOnly: true,
+          maxAge: process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000,
+          sameSite: process.env.NODE_ENV === "Development" ? "lax" : "none",
+          secure: process.env.NODE_ENV === "Development" ? false : true,
+      };
+
+      res.cookie("token", token, options).json({ data });
+      ```
+
+  3. The `withCredentials` property was set to `true` in the Axios request from the client side to accept the cookie from the server and include it in subsequent requests.
+
+      ```javascript
+      const { data } = await axios.post(url, formData, {
+          withCredentials: true,
+      });
+      ```
+
+### Navigation Issue After Deployment
+
+- **Description**: After deploying the project on Netlify, using `navigation.navigate('/route')` in React didn't lead to the expected routes. It was searching for routes based on `index.html`.
+
+- **Resolution**: The issue was resolved by adding the following line to the `_redirects` file in the public directory:
+
+    ```
+    /* /index.html 200
+    ```
+
+This redirection ensured that routes were accessible as intended, even after deployment.
