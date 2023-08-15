@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
-// import './App.css';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
-import Login from './components/Login/Login';
-import Register from './components/Register/Register';
-import Dashboard from './components/Dashboard/Dashboard'; 
 import axios from 'axios';
+
+const Dashboard = lazy(() => import('./components/Dashboard/Dashboard'));
+const Login = lazy(() => import('./components/Login/Login'));
+const Register = lazy(() => import('./components/Register/Register'));
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   console.log("currUser: ", currentUser)
 
   const userState = {
@@ -15,40 +17,69 @@ function App() {
     set : setCurrentUser
   }
 
-  const getUser = async () => {
-    try {
-      const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/currentUser`, {
-        withCredentials: true
-      })
-      console.log("Current User: ", data);
-      setCurrentUser(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
   useEffect(() => {
-    console.log(import.meta.env)
+    const getUser = async () => {
+      try {
+        setIsLoading(true);
+        setIsError(false);
+        const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/currentUser`, {
+          withCredentials: true
+        })
+        console.log("Current User: ", data);
+        setCurrentUser(data);
+      } catch (error) {
+        console.log(error);
+        setIsError(true);
+      }
+      finally{
+        setIsLoading(false);
+      }
+    }
+    
     getUser();
   }, [])
+
+  if(isLoading){
+    return <p>Loading....</p>
+  }
+  if(isError){
+    return <p>Something went wrong, Try again later.</p>
+  }
 
   return (
     <Router>
       <Routes>
-        {
-          !currentUser ? (
-            <>
-              <Route path="/" element={ <Login /> } /> 
-              <Route path="/register" element={<Register />} /> 
-            </>
-          ) : (
-            <>
-              <Route path="/" element={<Dashboard userState={userState} /> } /> 
-              <Route path="/dashboard" element={<Dashboard userState={userState} /> } /> 
-            </>
-          )
-        }
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              {currentUser ? (
+                <Dashboard userState={userState} />
+              ) : (
+                <Login />
+              )}
+            </Suspense>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              {currentUser ? <Dashboard userState={userState} /> : null}
+            </Suspense>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <Register />
+            </Suspense>
+          }
+        />
       </Routes>
     </Router>
+
   );
 }
 
