@@ -11,7 +11,7 @@ const Navbar = ({userState}) => {
 
   const handleLogout = async () => {
     try {
-      const resp = await axios.get(`https://inventory-management-quhz.onrender.com/api/v1/logout`, {
+      const resp = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/logout`, {
         withCredentials: true
       })
       console.log("Logout: ", resp);

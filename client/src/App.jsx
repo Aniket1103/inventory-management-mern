@@ -17,7 +17,7 @@ function App() {
 
   const getUser = async () => {
     try {
-      const { data } = await axios.get(`https://inventory-management-quhz.onrender.com/api/v1/currentUser`, {
+      const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/currentUser`, {
         withCredentials: true
       })
       console.log("Current User: ", data);

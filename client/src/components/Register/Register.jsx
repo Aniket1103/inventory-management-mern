@@ -25,7 +25,7 @@ const Register = () => {
     console.log(email, password)
 
     try {
-      const {data} = await axios.post(`https://inventory-management-quhz.onrender.com/api/v1/register`, formData, {
+      const {data} = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/register`, formData, {
         withCredentials: true,
       });
       

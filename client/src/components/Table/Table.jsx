@@ -31,7 +31,7 @@ const Table = ({inventoryState, userState, unapproved}) => {
 
   const getUnapprovedInventoryItems = async () => {
     try {
-      const { data } = await axios.get(`https://inventory-management-quhz.onrender.com/api/v1/inventory/unapproved`, {
+      const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory/unapproved`, {
         withCredentials: true
       })
       console.log("Unapproved Items: ", data);
@@ -47,7 +47,7 @@ const Table = ({inventoryState, userState, unapproved}) => {
     if(!description || !quantity || !name || !category) return alert("Email or Password cannot be empty\nPlease Try Again.");
 
     try {
-      const {data} = await axios.post(`https://inventory-management-quhz.onrender.com/api/v1/inventory`, formData, {
+      const {data} = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory`, formData, {
         withCredentials: true,
       });
       
@@ -65,7 +65,7 @@ const Table = ({inventoryState, userState, unapproved}) => {
   
   const handleDelete = async (_id) => {
     try {
-      const { data } = await axios.delete(`https://inventory-management-quhz.onrender.com/api/v1/inventory/${_id}`, {
+      const { data } = await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory/${_id}`, {
         withCredentials: true
       })
       console.log("Deleted Item: ", data);
@@ -79,7 +79,7 @@ const Table = ({inventoryState, userState, unapproved}) => {
 
   const handleApprove = async (_id) => {
     try {
-      const { data } = await axios.patch(`https://inventory-management-quhz.onrender.com/api/v1/inventory/approve/${_id}`,{}, {
+      const { data } = await axios.patch(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory/approve/${_id}`,{}, {
         withCredentials: true
       })
       console.log("Approved Item: ", data.updatedItem);

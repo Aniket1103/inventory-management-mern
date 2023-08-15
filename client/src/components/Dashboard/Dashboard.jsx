@@ -18,7 +18,7 @@ const Dashboard = ({userState}) => {
   console.log("state", inventoryState)
   const getInventoryItems = async () => {
     try {
-      const { data } = await axios.get(`https://inventory-management-quhz.onrender.com/api/v1/inventory`, {
+      const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory`, {
         withCredentials: true
       })
       console.log("Inventory Data: ", data);
