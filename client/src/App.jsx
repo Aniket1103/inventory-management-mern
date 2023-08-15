@@ -1,6 +1,7 @@
 import { useEffect, useState, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
 import axios from 'axios';
+import Loader from './components/Loader/Loader';
 
 const Dashboard = lazy(() => import('./components/Dashboard/Dashboard'));
 const Login = lazy(() => import('./components/Login/Login'));
@@ -40,7 +41,7 @@ function App() {
   }, [])
 
   if(isLoading){
-    return <p>Loading....</p>
+    return <Loader />
   }
   if(isError){
     return <p>Something went wrong, Try again later.</p>
@@ -52,7 +53,7 @@ function App() {
         <Route
           path="/"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loader />}>
               {currentUser ? (
                 <Dashboard userState={userState} />
               ) : (
@@ -64,7 +65,7 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loader />}>
               {currentUser ? <Dashboard userState={userState} /> : null}
             </Suspense>
           }
@@ -72,7 +73,7 @@ function App() {
         <Route
           path="/register"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loader />}>
               <Register />
             </Suspense>
           }
