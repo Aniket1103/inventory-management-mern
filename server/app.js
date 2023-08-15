@@ -3,6 +3,11 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import user from './routes/user.js'
 import inventoryItem from './routes/inventoryItem.js'
+import { config } from 'dotenv';
+
+config({
+  path: "./config/config.env"
+})
 
 export const app = express();
 
