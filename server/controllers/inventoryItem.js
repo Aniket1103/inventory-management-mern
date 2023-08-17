@@ -81,8 +81,20 @@ export const getInventoryItems = async (req, res) => {
       }
       res.status(200).json(inventoryItem);
     } else {
+      const { sort } = req.query;
+      const pageNumber = parseInt(req.query.pageNumber) || 0;
+      const limit = parseInt(req.query.limit) || 10;
+      console.log(sort, pageNumber, limit);
+
+      const startIndex = pageNumber * limit;
+      // console.log(await InventoryItem.countDocuments().exec());
       // Fetch all approved inventory items if "id" is not provided.
-      const allInventoryItems = await InventoryItem.find({approved: approved});
+      const allInventoryItems = await InventoryItem.find({approved: approved})
+      .sort(sort)
+      .skip(startIndex)
+      .limit(limit)
+      .exec()
+
       res.status(200).json(allInventoryItems);
     }
   } catch (error) {
