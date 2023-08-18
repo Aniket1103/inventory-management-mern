@@ -15,10 +15,21 @@ const Dashboard = ({userState}) => {
     "value": inventoryData,
     "set": setInventoryData
   }
+  const [page, setPage] = useState(1);
+  const pageState = {
+    value: page,
+    set: setPage
+  }
+
   console.log("state", inventoryState)
   const getInventoryItems = async () => {
     try {
       const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory`, {
+        params: {
+          sort: "-_id",
+          limit: 5,
+          pageNumber: page-1
+        },
         withCredentials: true
       })
       console.log("Inventory Data: ", data);
@@ -30,7 +41,7 @@ const Dashboard = ({userState}) => {
   useEffect(() => {
     console.log(import.meta.env)
     getInventoryItems();
-  }, [])
+  }, [page])
 
   useEffect(() => {
     // if(option === 1) 
@@ -44,7 +55,7 @@ const Dashboard = ({userState}) => {
 
   const getComponent = () => {
     switch(option){
-      case "Dashboard" : return <Table userState={userState} inventoryState={inventoryState} />;
+      case "Dashboard" : return <Table userState={userState} inventoryState={inventoryState} pageState={pageState}/>;
       case "Analytics" : return <Analytics userState={userState} inventoryState={inventoryState}/>;
       case "Requests" : return <Table inventoryState={inventoryState} userState={userState} unapproved={true}/>;
       default : return <Table userState={userState} inventoryState={inventoryState} />

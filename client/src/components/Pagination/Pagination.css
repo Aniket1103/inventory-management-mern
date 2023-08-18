@@ -1,0 +1,33 @@
+.pagination {
+    display: flex;
+    width: 80%;
+    margin: auto;
+    justify-content: center;
+}
+
+.page-change {
+    background-color: aquamarine;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #fff;
+    color: var(--primary-color);
+    border: var(--primary-color) solid 2px;
+    margin: 2px;
+}
+
+.page-change:hover {
+    background-color: #fff;
+    border: var(--secondary-color) solid 2px;
+    font-size: larger;
+}
+
+.page-count {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2.5rem;
+}

@@ -2,8 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import './Table.css';
+import Pagination from '../Pagination/Pagination';
 
-const Table = ({inventoryState, userState, unapproved}) => {
+const Table = ({ inventoryState, userState, unapproved, pageState }) => {
   // console.log("table state",currentUser, inventoryState)
   const currentUser = userState.value;
   const [isModalOpen, setModalOpen] = useState(false);
@@ -16,8 +17,10 @@ const Table = ({inventoryState, userState, unapproved}) => {
     category: '',
   });
 
+  const {page, setPage} = pageState;
+
   useEffect(() => {
-    if(unapproved) getUnapprovedInventoryItems()
+    if (unapproved) getUnapprovedInventoryItems()
     console.log("unapproved", unapproved)
   }, [unapproved])
 
@@ -40,29 +43,29 @@ const Table = ({inventoryState, userState, unapproved}) => {
       console.log(error.response.data);
     }
   }
-  
+
   const addProduct = async () => {
     // api post call to add Inventory Item
     const { name, description, quantity, category } = formData;
-    if(!description || !quantity || !name || !category) return alert("Email or Password cannot be empty\nPlease Try Again.");
+    if (!description || !quantity || !name || !category) return alert("Email or Password cannot be empty\nPlease Try Again.");
 
     try {
-      const {data} = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory`, formData, {
+      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory`, formData, {
         withCredentials: true,
       });
-      
+
       console.log("Product added: ", data);
-      if(data.approved) inventoryState.set([...inventoryState.value, data])
+      if (data.approved) inventoryState.set([...inventoryState.value, data])
       toast.success(currentUser.role === "Manager" ? "Product added Successfully" : "Request Sent Successfully");
     } catch (error) {
       const { status, data } = error.response;
       console.log(status, data);
-      if(status === 400 || status.status === 401) toast.error(data.message);
+      if (status === 400 || status.status === 401) toast.error(data.message);
       else toast.error("Error while Adding the Product\nPlease try again.");
     }
     // setInventoryData([...inventoryData, formData]);
   }
-  
+
   const handleDelete = async (_id) => {
     try {
       const { data } = await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory/${_id}`, {
@@ -79,7 +82,7 @@ const Table = ({inventoryState, userState, unapproved}) => {
 
   const handleApprove = async (_id) => {
     try {
-      const { data } = await axios.patch(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory/approve/${_id}`,{}, {
+      const { data } = await axios.patch(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory/approve/${_id}`, {}, {
         withCredentials: true
       })
       console.log("Approved Item: ", data.updatedItem);
@@ -91,12 +94,12 @@ const Table = ({inventoryState, userState, unapproved}) => {
       console.log(error.response.data);
     }
   }
-  
+
   // Add Product button : Event handler to open the modal
   const handleAddProduct = () => {
     setModalOpen(true);
   };
-  
+
   // Cancel add button : Event handler to open the modal
   const handleCancelAdd = () => {
     setModalOpen(false);
@@ -111,7 +114,7 @@ const Table = ({inventoryState, userState, unapproved}) => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     addProduct();
-    
+
     setFormData({
       name: '',
       description: '',
@@ -121,16 +124,16 @@ const Table = ({inventoryState, userState, unapproved}) => {
     setModalOpen(false)
     // setIsAdding(false);
   };
-  
+
   const getDataArray = () => {
-    if(unapproved) return requests;
+    if (unapproved) return requests;
     return inventoryState.value;
   }
 
   return (
     <div className="table-container">
-      <div style={{display: 'flex', justifyContent: 'center'}}>
-        <div style={{display: 'flex', margin: '0 15rem 0 30rem'}}>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', margin: '0 15rem 0 30rem' }}>
           <Toaster />
           <h2>
             {
@@ -142,23 +145,23 @@ const Table = ({inventoryState, userState, unapproved}) => {
             }
           </h2>
         </div>
-        <div style={{display: 'flex', justifyContent: 'center', margin: '0 12rem 0 0'}}>
+        <div style={{ display: 'flex', justifyContent: 'center', margin: '0 12rem 0 0' }}>
           {
-            !unapproved && 
+            !unapproved &&
             <button className="add-btn" onClick={isModalOpen ? handleCancelAdd : handleAddProduct}>
               {
                 (currentUser.role === "Manager") ? (
-                    isModalOpen ? " X " : "Add Product"
-                  ) : (
-                    isModalOpen ? " X " : "Request to Add"
+                  isModalOpen ? " X " : "Add Product"
+                ) : (
+                  isModalOpen ? " X " : "Request to Add"
                 )
-              } 
+              }
             </button>
           }
         </div>
 
       </div>
-      
+
       {
         isModalOpen ? (
           <div className="form-container">
@@ -210,15 +213,15 @@ const Table = ({inventoryState, userState, unapproved}) => {
               </div>
               <div>
               </div>
-                <button type="submit" style={{margin:"0 38%"}}>
-                  {
-                    (currentUser.role === "Manager") ? (
-                      "Add"
-                    ) : (
-                      "Request"
-                    )
-                  }
-                </button>
+              <button type="submit" style={{ margin: "0 38%" }}>
+                {
+                  (currentUser.role === "Manager") ? (
+                    "Add"
+                  ) : (
+                    "Request"
+                  )
+                }
+              </button>
               {/* <button onClick={() => setIsAdding(false)}>Cancel</button> */}
             </form>
           </div>
@@ -226,42 +229,45 @@ const Table = ({inventoryState, userState, unapproved}) => {
           (!unapproved || !loading) &&
           (
             getDataArray().length ? (
-            <table className="inventory-table">
-              <thead>
-                <tr>
-                  {/* <th>User Name</th> */}
-                  <th>Product Name</th>
-                  <th>Description</th>
-                  <th>Quantity</th>
-                  <th>Category</th>
-                  {
-                    (currentUser.role === "Manager") &&
-                    <th>Action</th>
-                  }
-                </tr>
-              </thead>
-              <tbody>
-                {getDataArray().map((item) => (
-                  <tr key={item._id}>
-                    {/* <td>{item?.user?.name || ""}</td> */}
-                    <td>{item.name}</td>
-                    <td>{item.description}</td>
-                    <td>{item.quantity}</td>
-                    <td>{item.category}</td>
-                    {
-                      (currentUser.role === "Manager") &&
-                      <td>
-                        <button onClick={() => unapproved ? handleApprove(item._id) : handleDelete(item._id)}>
-                          {unapproved ? "Approve" : "Delete"}
-                        </button>
-                      </td>
-                    }
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+              <>
+                <table className="inventory-table">
+                  <thead>
+                    <tr>
+                      {/* <th>User Name</th> */}
+                      <th>Product Name</th>
+                      <th>Description</th>
+                      <th>Quantity</th>
+                      <th>Category</th>
+                      {
+                        (currentUser.role === "Manager") &&
+                        <th>Action</th>
+                      }
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {getDataArray().map((item) => (
+                      <tr key={item._id}>
+                        {/* <td>{item?.user?.name || ""}</td> */}
+                        <td>{item.name}</td>
+                        <td>{item.description}</td>
+                        <td>{item.quantity}</td>
+                        <td>{item.category}</td>
+                        {
+                          (currentUser.role === "Manager") &&
+                          <td>
+                            <button onClick={() => unapproved ? handleApprove(item._id) : handleDelete(item._id)}>
+                              {unapproved ? "Approve" : "Delete"}
+                            </button>
+                          </td>
+                        }
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <Pagination pageState={pageState} />
+              </>
             ) : (
-              <h3 style={{margin: "0 38%", width: "50rem", color: "red"}}>
+              <h3 style={{ margin: "0 38%", width: "50rem", color: "red" }}>
                 {
                   (unapproved) ? (
                     "No Requests"
