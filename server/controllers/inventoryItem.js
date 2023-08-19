@@ -68,39 +68,57 @@ export const getUnapprovedInventoryItems = async (req, res) => {
 * req.query.approved : false can only be accessed by a manager
 * default value of approved is set to true (if not provided)
 */
-
 export const getInventoryItems = async (req, res) => {
   try {
     const { id } = req.params;
-    const approved = typeof req?.query?.approved === 'boolean' ? req.query.approved : true;
+    const filterApproved = req.query.approved === 'true' || true; 
+
     if (id) {
-      // Fetch a specific inventory item by its id if "id" is provided in the request parameters.
+      // Fetching a specific inventory item by its id if "id" is provided in the request parameters.
       const inventoryItem = await InventoryItem.findById(id);
       if (!inventoryItem) {
         return res.status(404).json({ message: 'Inventory item not found' });
       }
       res.status(200).json(inventoryItem);
     } else {
-      const { sort } = req.query;
       const pageNumber = parseInt(req.query.pageNumber) || 0;
       const limit = parseInt(req.query.limit) || 10;
-      console.log(sort, pageNumber, limit);
+      const sort = req.query.sort || 'createdAt'; 
 
-      const startIndex = pageNumber * limit;
-      // console.log(await InventoryItem.countDocuments().exec());
-      // Fetch all approved inventory items if "id" is not provided.
-      const allInventoryItems = await InventoryItem.find({approved: approved})
-      .sort(sort)
-      .skip(startIndex)
-      .limit(limit)
-      .exec()
+      const totalCount = await InventoryItem.countDocuments({ approved: filterApproved });
+      const totalPages = Math.ceil(totalCount / limit);
 
-      res.status(200).json(allInventoryItems);
+      const currentPage = Math.min(Math.max(pageNumber, 0), totalPages - 1);
+      const startIndex = currentPage * limit;
+
+      const paginationInfo = {
+        totalCount,
+        limit,
+        pages: totalPages,
+        currentPage,
+      };
+
+      if (currentPage > 0) {
+        paginationInfo.previous = currentPage - 1;
+      }
+
+      if (currentPage < totalPages - 1) {
+        paginationInfo.next = currentPage + 1;
+      }
+
+      const items = await InventoryItem.find({ approved: filterApproved })
+        .sort(sort)
+        .skip(startIndex)
+        .limit(limit)
+        .exec();
+
+      res.status(200).json({ items, ...paginationInfo});
     }
   } catch (error) {
     res.status(500).json({ message: 'Error fetching inventory items', error: error.message });
   }
 };
+
 
 
 //deleteInventoryItem : delete the item with the specified id
