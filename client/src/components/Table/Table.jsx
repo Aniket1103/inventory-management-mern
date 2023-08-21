@@ -3,46 +3,70 @@ import React, { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import './Table.css';
 import Pagination from '../Pagination/Pagination';
+import { useFetch } from '../../custom-hooks/useFetch';
+import Loader from '../Loader/Loader';
 
 const Table = ({ inventoryState, userState, unapproved, pageState }) => {
   // console.log("table state",currentUser, inventoryState)
   const currentUser = userState.value;
   const [isModalOpen, setModalOpen] = useState(false);
-  const [requests, setRequests] = useState([]);
-  const [loading, setLoading] = useState(unapproved);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     quantity: '',
     category: '',
   });
+  
+  // const {value: page, set: setPage} = pageState;
 
-  const {page, setPage} = pageState;
+  const {
+    data: requests,
+    setData: setRequests,
+    page,
+    setPage,
+    isLoading,
+    isError
+  } = useFetch(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory/unapproved`);
 
-  useEffect(() => {
-    if (unapproved) getUnapprovedInventoryItems()
-    console.log("unapproved", unapproved)
-  }, [unapproved])
+  const reqPageState = {
+    value: page,
+    set: setPage
+  }
+  
+  // const [requests, setRequests] = useState([]);
+  // const [loading, setLoading] = useState(unapproved);
 
-  useEffect(() => {
-    setLoading(false);
-  }, [requests])
+  // useEffect(() => {
+  //   if (unapproved) getUnapprovedInventoryItems()
+  //   console.log("unapproved", unapproved)
+  // }, [unapproved])
+
+  // useEffect(() => {
+  //   setLoading(false);
+  // }, [requests])
 
   // useEffect(() => {
   //   setLoading(unapproved);
   // }, [unapproved])
 
-  const getUnapprovedInventoryItems = async () => {
-    try {
-      const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory/unapproved`, {
-        withCredentials: true
-      })
-      console.log("Unapproved Items: ", data);
-      setRequests(data);
-    } catch (error) {
-      console.log(error.response.data);
-    }
+  if (isLoading) {
+    return <Loader />
   }
+  if (isError) {
+    return <p>Something went wrong, Try again later.</p>
+  }
+
+  // const getUnapprovedInventoryItems = async () => {
+  //   try {
+  //     const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory/unapproved`, {
+  //       withCredentials: true
+  //     })
+  //     console.log("Unapproved Items: ", data);
+  //     setRequests(data);
+  //   } catch (error) {
+  //     console.log(error.response.data);
+  //   }
+  // }
 
   const addProduct = async () => {
     // api post call to add Inventory Item
@@ -226,9 +250,7 @@ const Table = ({ inventoryState, userState, unapproved, pageState }) => {
             </form>
           </div>
         ) : (
-          (!unapproved || !loading) &&
-          (
-            getDataArray().length ? (
+            getDataArray(unapproved).length ? (
               <>
                 <table className="inventory-table">
                   <thead>
@@ -264,7 +286,7 @@ const Table = ({ inventoryState, userState, unapproved, pageState }) => {
                     ))}
                   </tbody>
                 </table>
-                <Pagination pageState={pageState} />
+                <Pagination pageState={!unapproved ? pageState : reqPageState} />
               </>
             ) : (
               <h3 style={{ margin: "0 38%", width: "50rem", color: "red" }}>
@@ -277,7 +299,6 @@ const Table = ({ inventoryState, userState, unapproved, pageState }) => {
                 }
               </h3>
             )
-          )
         )
       }
     </div>

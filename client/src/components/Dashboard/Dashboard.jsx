@@ -1,81 +1,71 @@
 import React, { useEffect, useState } from 'react';
 import './Dashboard.css';
-import Navbar from '../Navbar/Navbar'; 
+import Navbar from '../Navbar/Navbar';
 import Sidebar from '../Sidebar/Sidebar';
 import Table from '../Table/Table'
 import Analytics from '../Analytics/Analytics';
-import axios from 'axios';
+import Loader from '../Loader/Loader';
+import { useFetch } from '../../custom-hooks/useFetch';
 
-const Dashboard = ({userState}) => {
+const getComponent = (option, userState, inventoryState, pageState) => {
+  switch (option) {
+    case "Dashboard": return <Table userState={userState} inventoryState={inventoryState} pageState={pageState} key="approved" />;
+    case "Analytics": return <Analytics userState={userState} inventoryState={inventoryState} />;
+    case "Requests": return <Table inventoryState={inventoryState} userState={userState} pageState={pageState} unapproved={true} key="unapproved" />;
+    default: return <Table userState={userState} inventoryState={inventoryState} pageState={pageState} key="approved"/>
+  }
+}
+
+const Dashboard = ({ userState }) => {
   const currentUser = userState.value;
   console.log("Dashboard: ", currentUser);
   const [option, setOption] = useState("Dashboard");
-  const [inventoryData, setInventoryData] = useState([]);
+
+  const {
+    data: inventoryData,
+    setData: setInventoryData,
+    page,
+    setPage,
+    isLoading,
+    isError
+  } = useFetch(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory`);
+
   const inventoryState = {
     "value": inventoryData,
     "set": setInventoryData
   }
-  const [page, setPage] = useState(1);
   const pageState = {
-    value: page,
-    set: setPage
+    "value": page,
+    "set": setPage
   }
-
-  console.log("state", inventoryState)
-  const getInventoryItems = async () => {
-    try {
-      const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/inventory`, {
-        params: {
-          sort: "-_id",
-          limit: 5,
-          pageNumber: page-1
-        },
-        withCredentials: true
-      })
-      console.log("Inventory Data: ", data);
-      setInventoryData(data);
-    } catch (error) {
-      console.log(error.response.data);
-    }
-  }
-  useEffect(() => {
-    console.log(import.meta.env)
-    getInventoryItems();
-  }, [page])
-
-  useEffect(() => {
-    // if(option === 1) 
-  }, [option])
-  
 
   const toggleMenu = (value) => {
     console.log(value)
     setOption(value);
   }
 
-  const getComponent = () => {
-    switch(option){
-      case "Dashboard" : return <Table userState={userState} inventoryState={inventoryState} pageState={pageState}/>;
-      case "Analytics" : return <Analytics userState={userState} inventoryState={inventoryState}/>;
-      case "Requests" : return <Table inventoryState={inventoryState} userState={userState} unapproved={true}/>;
-      default : return <Table userState={userState} inventoryState={inventoryState} />
-    }
+  if (isLoading) {
+    return <Loader />
   }
+  if (isError) {
+    return <p>Something went wrong, Try again later.</p>
+  }
+
 
   return (
     <div className="dashboard-container">
-      <Navbar userState={userState} selectedOption={option} /> 
-      <div style={{display:"flex", flexDirection: "column"}}>
-        <Sidebar toggleMenu={toggleMenu} userState={userState}/>
+      <Navbar userState={userState} selectedOption={option} />
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <Sidebar toggleMenu={toggleMenu} userState={userState} />
         <div>
           <div className="dashboard-content">
-          {/* <h1>Welcome to Dashboard!</h1> */}
-        </div>
+            {/* <h1>Welcome to Dashboard!</h1> */}
+          </div>
         </div>
       </div>
-        {
-          inventoryData && getComponent(option)
-        }
+      {
+        inventoryData && getComponent(option, userState, inventoryState, pageState)
+      }
     </div>
   );
 };
